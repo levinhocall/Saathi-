@@ -1,0 +1,5 @@
+# Android build references
+
+Official guidance used for this project: Expo SDK 57 [APK profiles](https://docs.expo.dev/versions/v57.0.0/build-reference/apk/), [EAS setup](https://docs.expo.dev/versions/v57.0.0/build/setup/), and [local builds](https://docs.expo.dev/versions/v57.0.0/build-reference/local-builds/); Android [command-line tools](https://developer.android.com/tools), [sdkmanager](https://developer.android.com/tools/sdkmanager), and the [Android Studio / SDK distribution and license page](https://developer.android.com/studio).
+
+The Android project requires Node/npm, Java, Android SDK Platform 36, Build Tools 36.0.0, NDK 27.1.12297006, and CMake 3.30.5. The user explicitly authorized acceptance of the required Android SDK licenses for the Saathi testing APK on 2026-10-05 and subsequently requested the same debug build through GitHub Actions. This approval covers only the testing build and its required tooling; it does not authorize production signing, Play Store publication, or any unrelated agreement.

@@ -6,12 +6,12 @@ An original Android assistant prototype inspired by the supplied dark/red visual
 
 This is the first UI prototype: Home, Chat, Tools, and Settings screens; a session-only canned-response chat; quick prompts; and clear demo/planned labels. **No live AI provider, microphone capture, location, contacts, notification access, or other device control is connected.** No API key or sensitive Android permission is included.
 
-See [the UI and core-features plan](docs/UI_CORE_PLAN.md) for the intended roadmap and platform limitations.
+See [the UI and core-features plan](docs/UI_CORE_PLAN.md) for the roadmap and platform limitations.
 
 ## Run locally
 
 ```bash
-npm install
+npm ci
 npx expo start
 ```
 
@@ -20,21 +20,20 @@ Open the QR code in Expo Go, or run on an Android development environment with `
 ## Checks
 
 ```bash
-npx expo lint
-npx tsc --noEmit
+npm run lint
+npm run typecheck
 npx expo-doctor
 ```
 
-## Build an installable Android APK
+## Testing APK through GitHub Actions
 
-An APK has **not** been built yet. This repository has an EAS `preview` profile configured to produce an APK. After signing into an Expo account (do not send login credentials in chat), configure the project and start the cloud build:
+The workflow at [`.github/workflows/android-debug.yml`](.github/workflows/android-debug.yml) runs on pushes to `main` and can also be started manually with **Actions → Android debug APK → Run workflow**. It checks the project, generates the native Android project, compiles a debug APK, and uploads `saathi-debug-apk` as a 14-day workflow artifact. Download it from the completed run's **Artifacts** section.
 
-```bash
-npx eas-cli@latest build:configure
-npx eas-cli@latest build --platform android --profile preview
-```
+The APK is debug-signed for sideload testing only; it is not a Play Store release or production-signed build. The CI workflow must first be pushed to the repository and Actions must be enabled.
 
-The completed EAS build provides the APK download link. The `production` profile targets app-store distribution (AAB by default), which is a separate release step.
+## EAS alternative
+
+An EAS `preview` profile is also configured in `eas.json`. A cloud build requires an Expo account and an authenticated EAS CLI session; do not send account credentials or tokens in chat.
 
 ## AI integration and secrets
 
@@ -42,4 +41,4 @@ The visible chat replies are local demo text. Before connecting a real model, ch
 
 ## GitHub
 
-The project is intended for a **private GitHub repository** as the primary source. The provisional app name, package ID, and UI copy can be updated before release.
+The user selected `https://github.com/levinhocall/Saathi-` and explicitly confirmed that the initial source push may be public. Repository write authentication is required to publish the commit and start the CI workflow.
