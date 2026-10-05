@@ -32,5 +32,12 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "appConfigFieldsNotSyncedCheck": {
+        "enabled": false
+      }
+    }
+  }
 }

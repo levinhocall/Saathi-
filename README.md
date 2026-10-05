@@ -29,7 +29,7 @@ npx expo-doctor
 
 The workflow at [`.github/workflows/android-debug.yml`](.github/workflows/android-debug.yml) runs on pushes to `main` and can also be started manually with **Actions → Android debug APK → Run workflow**. It checks the project, builds the committed Android Gradle project with its wrapper, and uploads `saathi-debug-apk` as a 14-day workflow artifact. Download it from the completed run's **Artifacts** section. The workflow creates a temporary debug keystore; no keystore or local SDK path is committed.
 
-The APK is debug-signed for sideload testing only; it is not a Play Store release or production-signed build. The CI workflow must first be pushed to the repository and Actions must be enabled.
+The APK includes the JavaScript bundle and disables Metro developer support so it can launch without a running dev server. Fast Refresh and the React Native dev menu are therefore unavailable in this test build. It is debug-signed for sideload testing only, not a Play Store release or production-signed build. Because the Android project is intentionally committed, changes to native app config must also be applied to the Android Gradle project; Expo Doctor's app-config-sync check is disabled for this reason.
 
 ## EAS alternative
 
