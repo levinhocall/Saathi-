@@ -13,10 +13,12 @@ expo-env.d.ts
 .kotlin/
 *.orig.*
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
 *.mobileprovision
+local.properties
 
 # Metro
 .metro-health-check*
@@ -39,6 +41,5 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-# generated native folders
+# iOS stays CNG-generated; Android is tracked for direct Gradle CI builds
 /ios
-/android

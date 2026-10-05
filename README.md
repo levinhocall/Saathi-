@@ -27,7 +27,7 @@ npx expo-doctor
 
 ## Testing APK through GitHub Actions
 
-The workflow at [`.github/workflows/android-debug.yml`](.github/workflows/android-debug.yml) runs on pushes to `main` and can also be started manually with **Actions → Android debug APK → Run workflow**. It checks the project, generates the native Android project, compiles a debug APK, and uploads `saathi-debug-apk` as a 14-day workflow artifact. Download it from the completed run's **Artifacts** section.
+The workflow at [`.github/workflows/android-debug.yml`](.github/workflows/android-debug.yml) runs on pushes to `main` and can also be started manually with **Actions → Android debug APK → Run workflow**. It checks the project, builds the committed Android Gradle project with its wrapper, and uploads `saathi-debug-apk` as a 14-day workflow artifact. Download it from the completed run's **Artifacts** section. The workflow creates a temporary debug keystore; no keystore or local SDK path is committed.
 
 The APK is debug-signed for sideload testing only; it is not a Play Store release or production-signed build. The CI workflow must first be pushed to the repository and Actions must be enabled.
 

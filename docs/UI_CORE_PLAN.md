@@ -56,6 +56,7 @@ A privacy-conscious, Hinglish-friendly Android companion inspired by the supplie
 ## Source and release path
 
 - The selected target is the user-provided GitHub repository `levinhocall/Saathi-`; the user explicitly approved the initial push being public.
+- The generated Android Gradle project (wrapper, app module, manifests, Kotlin entry points, and launcher resources) is included for direct builds. Gradle outputs, local SDK paths, and keystores remain ignored.
 - `.github/workflows/android-debug.yml` checks the project and produces a debug APK artifact on a push to `main` or a manual workflow dispatch. It must be pushed and Actions enabled before a run is available.
 - `eas.json` retains an internal APK preview profile as an alternative; EAS requires an authenticated Expo account.
 - The current app is not connected to an AI provider. The debug APK is for sideload testing only, not a production or Play Store release.
