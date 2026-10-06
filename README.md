@@ -1,44 +1,32 @@
-# Saathi AI (working title)
+# Saathi AI
 
-An original Android assistant prototype inspired by the supplied dark/red visual reference. It is not a copy of the reference app's logo or artwork.
+Saathi is a native Android app built with **Kotlin and Jetpack Compose**, using an original dark/red visual identity inspired by the supplied assistant reference without copying its logo or artwork.
 
-## Current status
+## Current functionality
 
-This is the first UI prototype: Home, Chat, Tools, and Settings screens; a session-only canned-response chat; quick prompts; and clear demo/planned labels. **No live AI provider, microphone capture, location, contacts, notification access, or other device control is connected.** No API key or sensitive Android permission is included.
+The app contains four native Compose destinations: **Home**, **Chat**, **Tools**, and **Settings**. Chat preserves the previous session-only local demo replies. The voice control explains that microphone capture is not connected; tools and settings clearly show planned/unavailable states. No AI provider, network request, microphone capture, contacts/location access, notifications listener, or device-control action is implemented.
 
-See [the UI and core-features plan](docs/UI_CORE_PLAN.md) for the roadmap and platform limitations.
+The manifest requests no app permissions. The UI does not pretend planned actions are active. A future AI provider must use a protected backend; never place provider keys in this Android client.
 
-## Run locally
+## Build requirements
 
-```bash
-npm ci
-npx expo start
-```
+- JDK 17 or newer (CI uses JDK 21)
+- Android SDK Platform 37.0
+- Android SDK Build-Tools 36.0.0
 
-Open the QR code in Expo Go, or run on an Android development environment with `npx expo run:android` after the native toolchain is configured.
-
-## Checks
+From the repository root:
 
 ```bash
-npm run lint
-npm run typecheck
-npx expo-doctor
+cd android
+./gradlew testDebugUnitTest lintDebug assembleDebug
 ```
 
-## Testing APK through GitHub Actions
+The APK is generated at `android/app/build/outputs/apk/debug/app-debug.apk`. A CI workflow on pushes to `main` and manual dispatch uploads the debug APK as `saathi-compose-debug-apk` for 14 days.
 
-The workflow at [`.github/workflows/android-debug.yml`](.github/workflows/android-debug.yml) runs on pushes to `main` and can also be started manually with **Actions → Android debug APK → Run workflow**. It checks the project, builds the committed Android Gradle project with its wrapper, and uploads `saathi-debug-apk` as a 14-day workflow artifact. Download it from the completed run's **Artifacts** section. The workflow creates a temporary debug keystore; no keystore or local SDK path is committed.
+## Release status
 
-The APK includes the JavaScript bundle and disables Metro developer support so it can launch without a running dev server. Fast Refresh and the React Native dev menu are therefore unavailable in this test build. It is debug-signed for sideload testing only, not a Play Store release or production-signed build. Because the Android project is intentionally committed, changes to native app config must also be applied to the Android Gradle project; Expo Doctor's app-config-sync check is disabled for this reason.
+`assembleRelease` is built unsigned for compilation checks only. No production signing key is present, and the release artifact is not suitable for installation or Play Store distribution until a protected production signing process is configured. The debug APK uses the standard temporary debug signing key for sideload testing.
 
-## EAS alternative
+## Project history
 
-An EAS `preview` profile is also configured in `eas.json`. A cloud build requires an Expo account and an authenticated EAS CLI session; do not send account credentials or tokens in chat.
-
-## AI integration and secrets
-
-The visible chat replies are local demo text. Before connecting a real model, choose a provider and route secret API credentials through a backend or protected secret store—never put provider keys in React Native source or a client-side `.env` value that ships in the APK.
-
-## GitHub
-
-The user selected `https://github.com/levinhocall/Saathi-` and explicitly confirmed that the initial source push may be public. Repository write authentication is required to publish the commit and start the CI workflow.
+The initial prototype used Expo/React Native. This repository has been migrated in place to native Compose, preserving the existing screens and demo behavior. The public source repository remains [`levinhocall/Saathi-`](https://github.com/levinhocall/Saathi-).

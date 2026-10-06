@@ -1,45 +1,31 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
-node_modules/
-
-# Expo
-.expo/
-dist/
-web-build/
-expo-env.d.ts
-
-# Native
+# Gradle and Android build outputs
+.gradle/
+**/build/
 .kotlin/
-*.orig.*
+.cxx/
+local.properties
+*.iml
+*.hprof
+
+# Local caches from the retired Expo prototype
+node_modules/
+.expo/
+
+# Android signing material and local secrets
 *.jks
 *.keystore
 *.p8
 *.p12
 *.key
-*.mobileprovision
-local.properties
-
-# Metro
-.metro-health-check*
-
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
-.DS_Store
-*.pem
-
-# local env files
 .env
 .env.*
 !.env.example
-.env*.local
 
-# typescript
-*.tsbuildinfo
+# IDE / operating system
+.idea/
+.DS_Store
+Thumbs.db
 
-# iOS stays CNG-generated; Android is tracked for direct Gradle CI builds
-/ios
+# temporary files
+*.tmp
+*.swp

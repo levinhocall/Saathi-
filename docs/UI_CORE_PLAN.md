@@ -1,63 +1,35 @@
-# Saathi AI — UI & Core Features (Draft)
+# Saathi AI — UI & Core Features
 
-**Status:** First implementation draft. The app name is provisional and can be changed before release.
+**Status:** Native Jetpack Compose implementation of the first UI milestone. The app name remains provisional.
 
 ## Product direction
 
-A privacy-conscious, Hinglish-friendly Android companion inspired by the supplied dark/red assistant reference, but with an original identity and layout. The first milestone is a functional interface prototype; device actions and live AI are added only after their permissions and provider path are deliberately configured.
+A privacy-conscious, Hinglish-friendly Android companion with an original dark/red identity. The current milestone is an installable Compose UI prototype; live AI and device actions remain unimplemented until their backend, permissions, and consent model are deliberately configured.
 
-## Visual system
+## Implemented screens
 
-- Near-black charcoal surfaces with restrained crimson accents and subtle red glow; no copied MYRA wordmark, character art, or exact layout.
-- Compact, one-handed portrait screens with rounded panels, clear tap targets, and high-contrast text.
-- Four destinations: **Home**, **Chat**, **Tools**, and **Settings**.
-- Warm, direct Hinglish microcopy; explicit status labels distinguish **Demo** from **Planned** functionality.
+- **Home:** greeting, preview badge, voice/orb explainer, chat entry point, and quick prompts.
+- **Chat:** Compose message bubbles, input field, IME send action, quick suggestions, saved session-only chat state, and deterministic local example replies.
+- **Tools:** planned cards for timers, search, maps, calls, files/OCR, and notifications; tapping a card explains that it is inactive.
+- **Settings:** display-only preferences, clear demo state, and privacy notice.
+- **Navigation:** native Material 3 bottom navigation for Home, Chat, Tools, and Settings, plus back-to-home handling.
 
-## Screens
+## Not connected in this milestone
 
-### Home
+- No AI provider, model-selection UI, network client, API key, or conversation backend.
+- No microphone permission, speech recognition, or text-to-speech.
+- No location, calls, contacts, messages, notification access, files/OCR, screen automation, or PC connection.
+- The manifest declares no app permissions; add them only alongside a real feature and just-in-time consent.
 
-- Greeting and short “what can I help with?” prompt.
-- Prominent assistant microphone/orb control; until speech is integrated, tapping explains that microphone access is not yet enabled.
-- Quick prompts for timer, web search, navigation, and summarization.
-- A small “Preview build” note and compact activity/feature status.
+## Android build
 
-### Chat
-
-- User/assistant message bubbles, prompt suggestions, text composer, and send action.
-- Current prototype uses canned replies only; no remote model is called and no conversation is persisted.
-- Later: live model responses via a server-side proxy, streaming, and optional spoken answers.
-
-### Tools
-
-- Action cards for timers, web search, Maps, contacts/messages, files/OCR, and notifications.
-- Prototype clearly labels device actions as not connected; it does not request permissions or silently perform actions.
-
-### Settings
-
-- Language and voice preferences (display-only in this preview).
-- Permission status/consent center planned for microphone, notifications, location, contacts, and accessibility.
-- Clear-history/privacy controls; first prototype stores chat state only in memory.
-
-## MVP progression
-
-1. **UI prototype (this milestone):** navigation, dark/red visual system, prompt composer, session-only demo chat, quick-action cards, settings, and explicit demo/planned labels.
-2. **Usable assistant:** choose an AI provider; add a protected backend/proxy (never embed a provider secret in the APK); connect speech recognition and text-to-speech; persist chats only after defining retention controls.
-3. **Permission-backed Android tools:** local timer/alarms and notification actions; Maps navigation intents; contact/dialer/message drafts, with confirmation for calls/messages; optional OCR/file lookup.
-4. **Advanced integrations:** notification listener and foreground accessibility automation only after explicit opt-in and an explanation of what is read or acted on. PC connectivity is a separate later scope.
+- Native single-activity Kotlin/Compose app; application ID `com.saathi.aiassistant`.
+- Compose compiler plugin and Kotlin Gradle Plugin 2.4.20; Android Gradle Plugin 9.3.1; Gradle 9.7.0 wrapper.
+- Compose BOM 2026.09.00; compile/target SDK 37, minimum SDK 24.
+- Debug APK is self-contained and debug-signed for sideload testing.
+- Release build is unsigned and kept unminified until a protected signing/release process is designed.
+- GitHub Actions runs unit tests, Android lint, debug APK build, and unsigned release compilation, then uploads the debug APK artifact.
 
 ## Safety and platform limits
 
-- Request permissions just in time, explain why, provide an off switch, and avoid collecting data not needed for the requested action.
-- Require confirmation before sending messages or placing calls; prefer opening the user's dialer or message composer over background sending.
-- Do not promise automatic call answering/rejection, universal device locking, silent WhatsApp/SMS delivery, OTP scraping, or unrestricted screen control. Android versions, default-handler rules, Play policies, and OEM behavior may prevent these features.
-- Do not read notifications, location, contacts, or files in the prototype. No Android permissions are requested yet.
-
-## Source and release path
-
-- The selected target is the user-provided GitHub repository `levinhocall/Saathi-`; the user explicitly approved the initial push being public.
-- The generated Android Gradle project (wrapper, app module, manifests, Kotlin entry points, and launcher resources) is included for direct builds. Gradle outputs, local SDK paths, and keystores remain ignored.
-- The testing debug variant embeds the JavaScript bundle and disables Metro developer support so it launches without a local dev server.
-- `.github/workflows/android-debug.yml` checks the project and produces a debug APK artifact on a push to `main` or a manual workflow dispatch.
-- `eas.json` retains an internal APK preview profile as an alternative; EAS requires an authenticated Expo account.
-- The current app is not connected to an AI provider. The debug APK is for sideload testing only, not a production or Play Store release.
+Do not claim that the demo replies come from an AI model. Never ship provider secrets in the APK. Any future actions that send messages, place calls, read private data, or control the screen need deliberate implementation, explicit permission, user confirmation where appropriate, and platform-policy review.

@@ -1,41 +1,26 @@
-This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
+# Saathi Android (Jetpack Compose)
 
-## Expo has changed — do not trust your training data
+This repository is a native Android application built with Kotlin and Jetpack Compose. The Android application module is `android/app` and the application ID is `com.saathi.aiassistant`.
 
-Expo ships breaking changes every SDK release. APIs you remember are likely renamed, moved, or removed. Before writing any code that touches an Expo, EAS, or React Native API:
+## Build and checks
 
-1. Read the major version of the `expo` package in `package.json`.
-2. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. For anything else, fetch https://docs.expo.dev/llms.txt — an index of all Expo docs with corrections to common LLM misconceptions. Follow its links to the specific page you need; never answer from memory.
-
-## Commands
-
-Use `bunx` instead of `npx` if the project uses bun (`bun.lock` present).
+From the repository root:
 
 ```bash
-npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — resolves SDK-compatible versions
-npx expo start              # start the dev server
-npx expo lint               # lint
-npx tsc --noEmit            # typecheck
-npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
+cd android
+./gradlew testDebugUnitTest lintDebug assembleDebug
 ```
 
-Run lint and typecheck before declaring any task done.
+Java 17 or newer is required (CI uses Java 21). Install Android SDK Platform 37.0 and Android SDK Build-Tools 36.0.0. The Gradle wrapper and SDK versions are checked into or declared by this project; do not replace them with arbitrary versions.
 
-## Navigation & Routing
+## Architecture
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
+- Keep Android UI in Jetpack Compose under `android/app/src/main/java/com/saathi/aiassistant/ui/`.
+- Keep platform entry points minimal in `MainActivity.kt`.
+- Current Chat is intentionally a local demo responder. Do not claim it calls an AI provider or performs phone actions.
+- Never add API secrets to Kotlin source, resources, Gradle files, APK assets, or documentation. A future provider integration must use a protected backend and explicit error states.
+- Request Android permissions only when a real implemented feature needs them, with clear user-facing consent.
 
-## Building with EAS
+## Verification
 
-Use EAS to build, sign, and submit the app in the cloud (`eas build`, `eas submit`) and to ship over-the-air updates (`eas update`) — no local Xcode or Android Studio required. Run EAS CLI as `bunx eas-cli <command>` in Bun projects, or `npx eas-cli@latest <command>` otherwise; substitute that for bare `eas` in docs examples.
-Docs: https://docs.expo.dev/eas/index.md
-
-## Rules
-
-- If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
-- Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+Run unit tests and Android lint before declaring a change complete. Verify the APK package ID and signature. If no emulator/device is available, report that a device launch smoke test could not be performed.

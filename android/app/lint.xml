@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- KGP 2.4.20 is fully supported through Gradle 9.7.0; lint's 9.8.0 suggestion is newer than that tested range. -->
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
+</lint>
